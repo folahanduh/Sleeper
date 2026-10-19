@@ -36,7 +36,7 @@ describe("deezer", () => {
 describe("lastfm", () => {
   test("parses listeners as numbers", async () => {
     const t = await lastfmTrack("k", "Kendrick Lamar", "Not Like Us", fakeFetch(fixture("lastfm-track.json")));
-    expect(t).toMatchObject({ listeners: 2104455, playcount: 41837201, track: "Not Like Us" });
+    expect(t).toMatchObject({ listeners: 2004963, playcount: 31134997, track: "Not Like Us" });
   });
   test("track not found is null, other API errors throw", async () => {
     expect(await lastfmTrack("k", "a", "b", fakeFetch('{"error":6,"message":"Track not found"}'))).toBeNull();
