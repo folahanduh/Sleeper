@@ -47,8 +47,8 @@ describe("lastfm", () => {
 
 describe("youtube", () => {
   test("parses views and spots deleted videos", async () => {
-    const v = await youtubeVideo("k", "T6eK-2OQtew", fakeFetch(fixture("youtube-video.json")));
-    expect(v).toMatchObject({ views: 812345678, channel: "KendrickLamarVEVO" });
+    const v = await youtubeVideo("k", "H58vbez_m4E", fakeFetch(fixture("youtube-video.json")));
+    expect(v).toMatchObject({ views: 511881302, channel: "KendrickLamarVEVO" });
     expect(await youtubeVideo("k", "T6eK-2OQtew", fakeFetch('{"items":[]}'))).toBeNull();
   });
   test("extracts ids from the usual link shapes", () => {

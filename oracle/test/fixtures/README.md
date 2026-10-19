@@ -1,3 +1,3 @@
 deezer-*.json: real responses captured from api.deezer.com on 2026-10-19.
-lastfm-*.json, youtube-*.json: shaped from the public API docs (no key was available
-when these were written); re-capture real ones with `npm run oracle -- measure` once keys exist.
+youtube-video.json: real videos.list response captured 2026-10-19 (trimmed to the fields we read).
+lastfm-track.json: shaped from the public API docs; re-capture a real one once LASTFM_API_KEY is set.
