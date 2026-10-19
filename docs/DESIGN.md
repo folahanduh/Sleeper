@@ -14,26 +14,42 @@ album flops, its coin crashes.
 
 Traction comes only from public numbers that anyone can check:
 
-| Source  | Field                     | Notes |
-|---------|---------------------------|-------|
-| Last.fm | `track.getInfo` listeners | Free API, all-time unique listeners. Primary signal. |
-| YouTube | video `viewCount`         | Free Data API quota. Official video or topic upload. |
-| Deezer  | track `rank`              | Free, no key. Sanity check for anomalies. |
+| Source  | Used for | Notes |
+|---------|----------|-------|
+| Deezer  | **Identity**: ISRC, canonical title/artist, cover art | Free, no key. A song must be on Deezer to launch, which proves it's a real release. |
+| Last.fm | **Primary signal**: all-time unique listeners | Free key. Always measured; "track not found" means 0 listeners. |
+| YouTube | **Optional second signal**: views of the official upload | Free key. Only counts if the launcher linked the video; the oracle checks the title and artist match. Uses `videos.list` (1 quota unit), never search. |
 
 **Spotify is not used.** Since February 2026, new Spotify developer apps no longer
 get track popularity, and play counts have never been exposed by its API. Getting
 popularity back means Extended Quota, which needs 250k monthly users.
 
-The oracle publishes every raw snapshot (JSON) and puts its sha256 on-chain in the
-`SongScored` event, so anyone can recompute every score.
+**Season growth is the minimum across a song's sources.** Botting YouTube views
+alone does nothing, because the song has to grow on Last.fm too. In the end-to-end
+test, a megastar whose views tripled still crashed (×0.70), because its listeners
+barely moved.
+
+**One coin per recording.** `song_id = sha256("isrc:" + ISRC)`. The coin's name is
+always "Title — Artist" from Deezer, never user text, so coins can't carry scam
+names. A knockoff can only be listed under its real artist.
+
+**Launch guards.** A song that is popular on Deezer (rank > 100k) but missing from
+Last.fm is refused. Otherwise a lookup miss would set its baseline to 0 and hand it
+a free 100× score later.
+
+**Every score is auditable.** At season end the oracle writes a snapshot (both
+measurements, per-source growth, the posted number) as canonical JSON. It serves the
+exact bytes at `/snapshots/<season>/<songId>.json` and puts their sha256 on-chain in
+the `SongScored` event.
 
 **Trust assumptions, stated plainly:**
 - The oracle key is trusted to report numbers honestly. Mitigations: public snapshots,
   on-chain hashes, and a grace-period fallback (below). Plan: move the oracle to a
   multisig or a set of independent signers before volume grows.
-- Streams and views can be botted. Last.fm listeners are the hardest of the three to
-  fake at scale, which is why they lead. The oracle also flags songs whose sources
-  disagree wildly.
+- The oracle co-signs every launch but is never the fee payer, and it only ever
+  signs transactions it built itself. Changing any byte voids its signature (tested).
+- Last.fm listeners can be faked with scrobble bots. That is far harder at scale than
+  buying views, which is why Last.fm leads and the minimum rule applies.
 
 ## Lifecycle
 

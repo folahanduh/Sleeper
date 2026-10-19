@@ -1,12 +1,37 @@
 {
   "name": "sleeper",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Sleeper: a Solana launchpad where every coin is a real song, settled on real-world traction",
+  "type": "module",
+  "bin": {
+    "sleeper-oracle": "./oracle/bin/sleeper-oracle"
+  },
   "scripts": {
     "build": "anchor build",
-    "test": "cargo test -p sleeper",
-    "check": "anchor build && cargo test -p sleeper"
+    "oracle": "tsx oracle/src/cli.ts",
+    "typecheck": "tsc --noEmit",
+    "test:program": "cargo test -p sleeper",
+    "test:oracle": "vitest run",
+    "check": "anchor build && cargo test -p sleeper && tsc --noEmit && vitest run"
   },
-  "license": "UNLICENSED"
+  "engines": {
+    "node": ">=24"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@anchor-lang/core": "^1.2.1",
+    "@solana/spl-token": "^0.4.15",
+    "@solana/web3.js": "^1.99.0",
+    "commander": "^15.0.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@solana/kit": "^8.5.0",
+    "@types/node": "^26.6.5",
+    "litesvm": "^1.6.1",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.5"
+  }
 }

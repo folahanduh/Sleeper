@@ -9,3 +9,4 @@ test-ledger/
 keys/
 *.keypair.json
 *-keypair.json
+data/
