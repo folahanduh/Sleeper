@@ -1,0 +1,12 @@
+{
+  "name": "sleeper",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Sleeper: a Solana launchpad where every coin is a real song, settled on real-world traction",
+  "scripts": {
+    "build": "anchor build",
+    "test": "cargo test -p sleeper",
+    "check": "anchor build && cargo test -p sleeper"
+  },
+  "license": "UNLICENSED"
+}

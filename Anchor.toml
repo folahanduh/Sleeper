@@ -1,0 +1,19 @@
+[toolchain]
+anchor_version = "1.2.1"
+
+[features]
+resolution = true
+skip-lint = false
+
+[programs.localnet]
+sleeper = "5cP2rHGPuEWRHQ74mbzdFhNKYLfpH6rSaXtKHekoRNrL"
+
+[programs.mainnet]
+sleeper = "5cP2rHGPuEWRHQ74mbzdFhNKYLfpH6rSaXtKHekoRNrL"
+
+[provider]
+cluster = "localnet"
+wallet = "keys/admin-keypair.json"
+
+[scripts]
+test = "cargo test -p sleeper"

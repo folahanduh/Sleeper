@@ -1,0 +1,11 @@
+target/
+node_modules/
+.anchor/
+test-ledger/
+.env
+.env.*
+!.env.example
+# Keypairs never go in git. Program + admin keys live in keys/ (gitignored) and a password manager.
+keys/
+*.keypair.json
+*-keypair.json
